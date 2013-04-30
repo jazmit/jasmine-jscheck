@@ -3,8 +3,8 @@ Simple shim which allows for using jscheck from jasmine
 - Use jasmine expect() matchers rather than jscheck verify()
 Usage: (coffeescript)
 
-forAll [JSC.integer(1,10)], 'integers from 1 to 10 should be positive', (arg) ->
-    expect( arg ).toBeGreaterThan 0
+        forAll [JSC.integer(1,10)], 'integers from 1 to 10 should be positive', (arg) ->
+            expect( arg ).toBeGreaterThan 0
 
 The number of generated values to be tried can be set via this.reps, and will be passed to JSC.reps
 
