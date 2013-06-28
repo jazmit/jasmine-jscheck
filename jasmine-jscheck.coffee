@@ -6,6 +6,7 @@ forAll = (signature, name, predicate) ->
         pp.string
 
     it name, ->
+        failedBefore = false
         localJasmine = this
         JSC.clear()
         jscPredicate = (verify, value...) =>
@@ -14,11 +15,16 @@ forAll = (signature, name, predicate) ->
         JSC.claim name, jscPredicate, signature
         if this.reps then JSC.reps(this.reps)
         failure = (f) ->
-            report = 'Failed: ' + f.name +
-                '\nArguments: ' + format(f.args) +
-                if f.exception? then '\nException:\n' + f.exception else ''
-            localJasmine.fail(report)
+            theReport = 'Failed: ' + f.name
+            unless failedBefore
+                console.log 'First failure with arguments:'
+                console.log f.args
+                if f.exception?
+                    console.log 'Exception: ' + f.exception
+                localJasmine.fail(theReport)
+            failedBefore = true
         JSC.on_fail failure
         JSC.on_lost failure
         JSC.check(5000)
+
 
